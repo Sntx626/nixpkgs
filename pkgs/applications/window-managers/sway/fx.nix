@@ -2,19 +2,19 @@
 
 sway-unwrapped.overrideAttrs (oldAttrs: rec {
   pname = "swayfx";
-  version = "0.2";
+  version = "0.3";
 
   src = fetchFromGitHub {
     owner = "WillPower3309";
     repo = "swayfx";
     rev = version;
-    sha256 = "sha256-nVy7GdAnheWhjevcCPE407xWSLN8F4Le0uq2RDwv/Zc=";
+    sha256 = "sha256-3Odyeb10AGbNf6TI1W79sLiwB4PrszC5VzjCr7FuPz4=";
   };
 
   meta = with lib; {
     description = "A Beautiful Sway Fork";
     homepage = "https://github.com/WillPower3309/swayfx";
-    maintainers = with maintainers; [ ricarch97 ];
+    maintainers = with maintainers; [ ricarch97 sntx626 ];
     license = licenses.mit;
     platforms = platforms.linux;
 

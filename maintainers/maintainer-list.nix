@@ -14731,6 +14731,11 @@
     github = "snpschaaf";
     githubId = 105843013;
   };
+  sntx626 = {
+    github = "sntx626";
+    githubId = 48636286;
+    name = "sntx";
+  };
   snyh = {
     email = "snyh@snyh.org";
     github = "snyh";
