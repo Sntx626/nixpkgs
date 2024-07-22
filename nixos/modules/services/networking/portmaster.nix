@@ -11,7 +11,7 @@ with lib; {
     enable = mkOption {
       type = types.bool;
       default = false;
-      description = lib.mdDoc ''
+      description = ''
         This option enables the portmaster-core daemon.
       '';
     };
@@ -19,23 +19,51 @@ with lib; {
     devmode.enable = mkOption {
       type = types.bool;
       default = false;
-      description = lib.mdDoc ''
+      description = ''
         This option enables the portmaster-core devmode.
 
         The devmode makes the Portmaster UI available at `127.0.0.1:817`.
       '';
     };
 
+    user = mkOption {
+      type = types.str;
+      default = "portmaster";
+      example = "yourUser";
+      description = ''
+        The user to run Portmaster as.
+      '';
+    };
+
+    group = mkOption {
+      type = types.str;
+      default = "portmaster";
+      example = "yourGroup";
+      description = ''
+        The group to run Portmaster under.
+      '';
+    };
+
     dataDir = mkOption {
       type = types.path;
       default = "/var/lib/portmaster";
-      description = lib.mdDoc ''
+      description = ''
         The directory where Portmaster stores its data files.
       '';
     };
   };
 
   config = mkIf cfg.enable {
+    users.users.${cfg.user} = {
+      group = cfg.group;
+      home = cfg.dataDir;
+      createHome = true;
+      uid = config.ids.uids.portmaster;
+      description = "Portmaster daemon user";
+    };
+
+    users.groups.${cfg.group}.gid = config.ids.gids.portmaster;
+
     systemd.services.portmaster = {
       enable = true;
       description = "Portmaster by Safing";
@@ -68,6 +96,8 @@ with lib; {
         LockPersonality = "yes";
         MemoryDenyWriteExecute = "yes";
         NoNewPrivileges = "yes";
+        User = cfg.user;
+        Group = cfg.group;
         PrivateTmp = "yes";
         PIDFile = "${cfg.dataDir}/core-lock.pid";
         Environment = [ "LOGLEVEL=info" ];
