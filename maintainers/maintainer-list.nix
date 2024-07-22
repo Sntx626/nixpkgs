@@ -18906,9 +18906,7 @@
     github = "Sntx626";
     githubId = 48636286;
     name = "sntx";
-    keys = [{
-      fingerprint = "0809 A274 05DE 37A1 6884 FD78 071E 9A01 90AA B7E9";
-    }];
+    keys = [ { fingerprint = "0809 A274 05DE 37A1 6884 FD78 071E 9A01 90AA B7E9"; } ];
   };
   snyh = {
     email = "snyh@snyh.org";
