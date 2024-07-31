@@ -1,12 +1,14 @@
-{ config
-, lib
-, pkgs
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  ...
 }:
 let
   cfg = config.services.portmaster;
 in
-with lib; {
+with lib;
+{
   options.services.portmaster = {
     enable = mkOption {
       type = types.bool;
@@ -67,17 +69,17 @@ with lib; {
     systemd.services.portmaster = {
       enable = true;
       description = "Portmaster by Safing";
-      documentation = [ "https://safing.io" "https://docs.safing.io" ];
+      documentation = [
+        "https://safing.io"
+        "https://docs.safing.io"
+      ];
 
       after = [ "network.target" ];
       wantedBy = [ "multi-user.target" ];
 
       path = with pkgs; [ iptables ];
 
-      preStart =
-        "${pkgs.portmaster}/bin/portmaster-start"
-        + " --data \"${cfg.dataDir}\""
-        + " update";
+      preStart = "${pkgs.portmaster}/bin/portmaster-start" + " --data \"${cfg.dataDir}\"" + " update";
 
       script =
         "${pkgs.portmaster}/bin/portmaster-core"
@@ -85,9 +87,7 @@ with lib; {
         + optionalString cfg.devmode.enable " -devmode";
 
       postStop =
-        "${pkgs.portmaster}/bin/portmaster-start"
-        + " --data \"${cfg.dataDir}\""
-        + " recover-iptables";
+        "${pkgs.portmaster}/bin/portmaster-start" + " --data \"${cfg.dataDir}\"" + " recover-iptables";
 
       serviceConfig = {
         Type = "simple";
@@ -119,5 +119,8 @@ with lib; {
     };
   };
 
-  meta.maintainers = with maintainers; [ nyanbinary sntx ];
+  meta.maintainers = with maintainers; [
+    nyanbinary
+    sntx
+  ];
 }
